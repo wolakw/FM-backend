@@ -31,7 +31,5 @@ public class UserController {
             user.setEmail(newUser.getEmail());
             return userRepository.save(user);
         }).orElseThrow(()-> new UserNotFoundException(id));
-
-
     }
 }

@@ -26,17 +26,46 @@ public class PlayerController {
         return playerRepository.findAll();
     }
 
-    @PutMapping("/playerstat/{id}")
-    Player updateUser(@RequestBody Player newPlayer,@PathVariable Long id) throws Exception {
-        return playerRepository.findById(id).map(player -> {
-            player.setPace(newPlayer.getPace());
-            player.setDefending(newPlayer.getDefending());
-            player.setShooting(newPlayer.getShooting());
-            player.setPassing(newPlayer.getPassing());
-            player.setDribbling(newPlayer.getDribbling());
-            player.setPhysicallity(newPlayer.getPhysicallity());
-            return playerRepository.save(player);
-        }).orElseThrow(()-> new Exception(id + ""));
+    @PutMapping("/playerstat/{id}/{type}")
+    Player updateUser(@PathVariable Long id,@PathVariable String type) throws Exception {
+
+        if (type.equals("pace")) {
+            return playerRepository.findById(id).map(player -> {
+                player.setPace(player.getPace() + 1);
+                return playerRepository.save(player);
+            }).orElseThrow(() -> new Exception(id + ""));
+        }
+        else if(type.equals("shooting")){
+            return playerRepository.findById(id).map(player -> {
+                player.setShooting(player.getShooting() + 1);
+                return playerRepository.save(player);
+            }).orElseThrow(() -> new Exception(id + ""));
+        }
+        else if(type.equals("passing")){
+            return playerRepository.findById(id).map(player -> {
+                player.setPassing(player.getPassing() + 1);
+                return playerRepository.save(player);
+            }).orElseThrow(() -> new Exception(id + ""));
+        }
+        else if(type.equals("dribbling")){
+            return playerRepository.findById(id).map(player -> {
+                player.setDribbling(player.getDribbling() + 1);
+                return playerRepository.save(player);
+            }).orElseThrow(() -> new Exception(id + ""));
+        }
+        else if(type.equals("defending")){
+            return playerRepository.findById(id).map(player -> {
+                player.setDefending(player.getDefending() + 1);
+                return playerRepository.save(player);
+            }).orElseThrow(() -> new Exception(id + ""));
+        }
+        else if(type.equals("physicality")){
+            return playerRepository.findById(id).map(player -> {
+                player.setPhysicallity(player.getPhysicallity() + 1);
+                return playerRepository.save(player);
+            }).orElseThrow(() -> new Exception(id + ""));
+        }
+        return null;
     }
 
 }
