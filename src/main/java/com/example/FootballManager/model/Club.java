@@ -3,6 +3,7 @@ package com.example.FootballManager.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -19,7 +20,16 @@ public class Club {
     private int matchesDraw;
     private int matchesLost;
     private int points;
-    private int position;
+    @OneToOne(mappedBy = "club")
+    private User user;
+
+    public Club(Long id) {
+        this.id = id;
+    }
+
+    public Club() {
+
+    }
 
     public Long getId() {
         return id;
@@ -75,13 +85,5 @@ public class Club {
 
     public void setPoints(int points) {
         this.points = points;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
     }
 }

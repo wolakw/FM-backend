@@ -1,5 +1,7 @@
 package com.example.FootballManager.controller;
 
+import com.example.FootballManager.exception.ClubNotFoundException;
+import com.example.FootballManager.exception.UserNotFoundException;
 import com.example.FootballManager.model.Club;
 import com.example.FootballManager.model.User;
 import com.example.FootballManager.repository.ClubRepository;
@@ -24,5 +26,23 @@ public class ClubController {
         return clubRepository.findAll();
     }
 
+    @GetMapping("/club/{id}")
+    Club getClubById(@PathVariable Long id) {
+        return clubRepository.findById(id)
+                .orElseThrow(()->new ClubNotFoundException(id));
+    }
 
+    @PutMapping("/club/{id}")
+    Club updateClub(@RequestBody Club newClub, @PathVariable Long id) {
+        return clubRepository.findById(id)
+                .map(club -> {
+                    club.setName(newClub.getName());
+                    club.setMatchesPlayed(newClub.getMatchesPlayed());
+                    club.setMatchesWon(newClub.getMatchesWon());
+                    club.setMatchesLost(newClub.getMatchesLost());
+                    club.setMatchesDraw(newClub.getMatchesDraw());
+                    club.setPoints(newClub.getPoints());
+                    return clubRepository.save(club);
+                }).orElseThrow(() -> new ClubNotFoundException(id));
+    }
 }

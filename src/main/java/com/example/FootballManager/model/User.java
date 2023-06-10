@@ -1,8 +1,7 @@
 package com.example.FootballManager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
@@ -13,6 +12,19 @@ public class User {
     private String username;
     private String name;
     private String email;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "club_id")
+    private Club club;
+
+    @JsonProperty("club") // Dopasuj nazwę pola do nazwy w JSON-ie
+    public Club getClub() {
+        return club;
+    }
+
+    @JsonProperty("club") // Dopasuj nazwę pola do nazwy w JSON-ie
+    public void setClub(Club club) {
+        this.club = club;
+    }
 
     public Long getId() {
         return id;
