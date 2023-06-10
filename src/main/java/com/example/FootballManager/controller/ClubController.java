@@ -23,4 +23,6 @@ public class ClubController {
     List<Club> getAllClubs(){
         return clubRepository.findAll();
     }
+
+
 }
