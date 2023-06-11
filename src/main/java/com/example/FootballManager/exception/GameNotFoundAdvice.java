@@ -10,11 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class MatchNotFoundAdvice {
+public class GameNotFoundAdvice {
     @ResponseBody
-    @ExceptionHandler(MatchNotFoundException.class)
+    @ExceptionHandler(GameNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> exceptionHandler(MatchNotFoundException exception) {
+    public Map<String, String> exceptionHandler(GameNotFoundException exception) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("errorMessage", exception.getMessage());
 

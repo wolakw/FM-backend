@@ -5,12 +5,12 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Match {
+public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date matchDate;
+    private Date gameDate;
     @ManyToOne
     @JoinColumn(name = "club_1_id")
     private Club club1;
@@ -26,12 +26,12 @@ public class Match {
     private int passesClub1;
     private int passesClub2;
 
-    public Date getMatchDate() {
-        return matchDate;
+    public Date getGameDate() {
+        return gameDate;
     }
 
-    public void setMatchDate(Date matchDate) {
-        this.matchDate = matchDate;
+    public void setGameDate(Date matchDate) {
+        this.gameDate = matchDate;
     }
 
     public Club getClub1() {
