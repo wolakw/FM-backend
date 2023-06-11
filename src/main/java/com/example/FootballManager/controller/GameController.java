@@ -282,6 +282,7 @@ public class GameController {
     @PutMapping("/clubs/reset")
     public ResponseEntity<String> resetClubs() {
         List<Club> clubs = clubRepository.findAll();
+        List<Game> games = gameRepository.findAll();
 
         for (Club club : clubs) {
             club.setMatchesPlayed(0);
@@ -289,6 +290,17 @@ public class GameController {
             club.setMatchesDraw(0);
             club.setMatchesLost(0);
             club.setPoints(0);
+        }
+
+        for (Game game : games) {
+            game.setGoalsClub1(0);
+            game.setGoalsClub2(0);
+            game.setShotsClub1(0);
+            game.setShotsClub2(0);
+            game.setPossessionClub1(0);
+            game.setPossessionClub2(0);
+            game.setPassesClub1(0);
+            game.setPassesClub2(0);
         }
 
         clubRepository.saveAll(clubs);
