@@ -65,4 +65,33 @@ public class PlayerController {
         return ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/players/{id}/remove-from-xi")
+    public ResponseEntity<String> removePlayerFromXI(@PathVariable Long id) {
+        Optional<Player> optionalPlayer = playerRepository.findById(id);
+        if (optionalPlayer.isPresent()) {
+            Player player = optionalPlayer.get();
+            if (player.isFirstXI()) {
+                player.setFirstXI(false);
+                playerRepository.save(player);
+                return ResponseEntity.ok("Player has been removed from the first XI.");
+            }
+            return ResponseEntity.badRequest().body("Player is not in the first XI.");
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/player/{id}/moveToXI")
+    public ResponseEntity<String> movePlayerToXI(@PathVariable Long id) {
+        Optional<Player> optionalPlayer = playerRepository.findById(id);
+        if (optionalPlayer.isPresent()) {
+            Player player = optionalPlayer.get();
+            player.setFirstXI(true);
+            playerRepository.save(player);
+            return ResponseEntity.ok("Player moved to XI successfully.");
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }
+
+
