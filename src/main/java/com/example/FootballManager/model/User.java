@@ -3,6 +3,8 @@ package com.example.FootballManager.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 public class User {
 
@@ -15,6 +17,7 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "club_id")
     private Club club;
+    private Date currDate;
 
     @JsonProperty("club") // Dopasuj nazwę pola do nazwy w JSON-ie
     public Club getClub() {
@@ -56,5 +59,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Date getCurrDate() {
+        return currDate;
+    }
+
+    public void setCurrDate(Date currDate) {
+        this.currDate = currDate;
     }
 }

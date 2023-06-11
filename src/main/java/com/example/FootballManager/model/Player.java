@@ -1,8 +1,8 @@
 package com.example.FootballManager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
 public class Player {
@@ -10,12 +10,19 @@ public class Player {
     @GeneratedValue
     private Long id;
     private String firstName;
-    private String lastNameame;
+    private String lastName;
     private int speed;
     private int shooting;
     private int defending;
     private int passing;
-    private int overall;
+    private int price;
+    private boolean isTaken;
+    private boolean isFirstXI;
+//    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "club_id")
+    @JsonBackReference // dodana adnotacja
+    private Club club;
 
     public Long getId() {
         return id;
@@ -33,12 +40,12 @@ public class Player {
         this.firstName = firstName;
     }
 
-    public String getLastNameame() {
-        return lastNameame;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastNameame(String lastNameame) {
-        this.lastNameame = lastNameame;
+    public void setLastName(String lastNameame) {
+        this.lastName = lastNameame;
     }
 
     public int getSpeed() {
@@ -73,11 +80,35 @@ public class Player {
         this.passing = passing;
     }
 
-    public int getOverall() {
-        return overall;
+    public int getPrice() {
+        return price;
     }
 
-    public void setOverall(int overall) {
-        this.overall = overall;
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public boolean isTaken() {
+        return isTaken;
+    }
+
+    public void setTaken(boolean taken) {
+        isTaken = taken;
+    }
+
+    public Club getClub() {
+        return club;
+    }
+
+    public void setClub(Club club) {
+        this.club = club;
+    }
+
+    public boolean isFirstXI() {
+        return isFirstXI;
+    }
+
+    public void setFirstXI(boolean firstXI) {
+        isFirstXI = firstXI;
     }
 }

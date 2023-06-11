@@ -1,11 +1,11 @@
 package com.example.FootballManager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.List;
 
 
 @Entity
@@ -22,6 +22,11 @@ public class Club {
     private int points;
     @OneToOne(mappedBy = "club")
     private User user;
+    @OneToMany(mappedBy = "club")
+    @JsonManagedReference // dodana adnotacja
+    private List<Player> players;
+    private int grade;
+    private int budget;
 
     public Club(Long id) {
         this.id = id;
@@ -85,5 +90,28 @@ public class Club {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
+
+    public int getBudget() {
+        return budget;
+    }
+    public void setBudget(int budget) {
+        this.budget = budget;
     }
 }
