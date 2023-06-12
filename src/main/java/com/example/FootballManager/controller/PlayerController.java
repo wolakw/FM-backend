@@ -44,25 +44,29 @@ public class PlayerController {
         }
         if(type.equals("shooting")){
             return playerRepository.findById(id).map(player -> {
-                player.setShooting(player.getShooting() + 1);
+                int temp = (player.getShooting() < 99) ? player.getShooting() + 1 : 99;
+                player.setShooting(temp);
                 return playerRepository.save(player);
             }).orElseThrow(() -> new Exception(id + ""));
         }
         else if(type.equals("passing")){
             return playerRepository.findById(id).map(player -> {
-                player.setPassing(player.getPassing() + 1);
+                int temp = (player.getPassing() < 99) ? player.getPassing() + 1 : 99;
+                player.setPassing(temp);
                 return playerRepository.save(player);
             }).orElseThrow(() -> new Exception(id + ""));
         }
         else if(type.equals("defending")){
             return playerRepository.findById(id).map(player -> {
-                player.setDefending(player.getDefending() + 1);
+                int temp = (player.getDefending() < 99) ? player.getDefending() + 1 : 99;
+                player.setDefending(temp);
                 return playerRepository.save(player);
             }).orElseThrow(() -> new Exception(id + ""));
         }
         else if(type.equals("speed")){
             return playerRepository.findById(id).map(player -> {
-                player.setSpeed(player.getSpeed() + 1);
+                int temp = (player.getSpeed() < 99) ? player.getSpeed() + 1 : 99;
+                player.setSpeed(temp);
                 return playerRepository.save(player);
             }).orElseThrow(() -> new Exception(id + ""));
         }
