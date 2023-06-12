@@ -46,70 +46,74 @@ public class GameController {
         if (optionalGame.isPresent()) {
             Game game = optionalGame.get();
 
-            // Pobranie klubów z meczu
-            Club club1 = game.getClub1();
-            Club club2 = game.getClub2();
+            if (!game.isPlayed()) {
+                // Pobranie klubów z meczu
+                Club club1 = game.getClub1();
+                Club club2 = game.getClub2();
 
-            // Obliczenie mocy klubów na podstawie oceny
-            double powerClub1 = club1.getGrade() / 100.0; // Konwersja oceny klubu na moc (0.01-0.99)
-            double powerClub2 = club2.getGrade() / 100.0; // Konwersja oceny klubu na moc (0.01-0.99)
+                // Obliczenie mocy klubów na podstawie oceny
+                double powerClub1 = club1.getGrade() / 100.0; // Konwersja oceny klubu na moc (0.01-0.99)
+                double powerClub2 = club2.getGrade() / 100.0; // Konwersja oceny klubu na moc (0.01-0.99)
 
-            // Generowanie wyniku meczu
-            int goalsClub1 = generateGoals(powerClub1); // Wywołanie metody generującej liczbę goli dla Club 1
-            int goalsClub2 = generateGoals(powerClub2); // Wywołanie metody generującej liczbę goli dla Club 2
+                // Generowanie wyniku meczu
+                int goalsClub1 = generateGoals(powerClub1); // Wywołanie metody generującej liczbę goli dla Club 1
+                int goalsClub2 = generateGoals(powerClub2); // Wywołanie metody generującej liczbę goli dla Club 2
 
-            // Generowanie statystyk meczu
-            int shotsClub1 = generateShots(powerClub1); // Wywołanie metody generującej liczbę strzałów dla Club 1
-            int shotsClub2 = generateShots(powerClub2); // Wywołanie metody generującej liczbę strzałów dla Club 2
-            int possessionClub1 = generatePossession(powerClub1); // Wywołanie metody generującej posiadanie piłki dla Club 1
-            int possessionClub2 = 100 - possessionClub1; // Posiadanie piłki dla Club 2 (100 - possessionClub1)
-            int passesClub1 = generatePasses(powerClub1); // Wywołanie metody generującej liczbę podań dla Club 1
-            int passesClub2 = generatePasses(powerClub2); // Wywołanie metody generującej liczbę podań dla Club 2
+                // Generowanie statystyk meczu
+                int shotsClub1 = generateShots(powerClub1); // Wywołanie metody generującej liczbę strzałów dla Club 1
+                int shotsClub2 = generateShots(powerClub2); // Wywołanie metody generującej liczbę strzałów dla Club 2
+                int possessionClub1 = generatePossession(powerClub1); // Wywołanie metody generującej posiadanie piłki dla Club 1
+                int possessionClub2 = 100 - possessionClub1; // Posiadanie piłki dla Club 2 (100 - possessionClub1)
+                int passesClub1 = generatePasses(powerClub1); // Wywołanie metody generującej liczbę podań dla Club 1
+                int passesClub2 = generatePasses(powerClub2); // Wywołanie metody generującej liczbę podań dla Club 2
 
-            // Aktualizacja wyniku i statystyk meczu
-            game.setPlayed(true);
-            game.setGoalsClub1(goalsClub1);
-            game.setGoalsClub2(goalsClub2);
-            game.setShotsClub1(shotsClub1);
-            game.setShotsClub2(shotsClub2);
-            game.setPossessionClub1(possessionClub1);
-            game.setPossessionClub2(possessionClub2);
-            game.setPassesClub1(passesClub1);
-            game.setPassesClub2(passesClub2);
-            gameRepository.save(game);
+                // Aktualizacja wyniku i statystyk meczu
+                game.setPlayed(true);
+                game.setGoalsClub1(goalsClub1);
+                game.setGoalsClub2(goalsClub2);
+                game.setShotsClub1(shotsClub1);
+                game.setShotsClub2(shotsClub2);
+                game.setPossessionClub1(possessionClub1);
+                game.setPossessionClub2(possessionClub2);
+                game.setPassesClub1(passesClub1);
+                game.setPassesClub2(passesClub2);
+                gameRepository.save(game);
 
-            // Aktualizacja statystyk klubów
-            club1.setMatchesPlayed(club1.getMatchesPlayed() + 1);
-            club2.setMatchesPlayed(club2.getMatchesPlayed() + 1);
+                // Aktualizacja statystyk klubów
+                club1.setMatchesPlayed(club1.getMatchesPlayed() + 1);
+                club2.setMatchesPlayed(club2.getMatchesPlayed() + 1);
 
-            if (goalsClub1 > goalsClub2) {
-                // Club 1 wygrał
-                club1.setMatchesWon(club1.getMatchesWon() + 1);
-                club1.setPoints(club1.getPoints() + 3);
-                club2.setMatchesLost(club2.getMatchesLost() + 1);
-                club1.setBudget(club1.getBudget() + 1000000);
-                club2.setBudget(club2.getBudget() + 250000);
-            } else if (goalsClub1 < goalsClub2) {
-                // Club 2 wygrał
-                club2.setMatchesWon(club2.getMatchesWon() + 1);
-                club2.setPoints(club2.getPoints() + 3);
-                club1.setMatchesLost(club1.getMatchesLost() + 1);
-                club1.setBudget(club1.getBudget() + 250000);
-                club2.setBudget(club2.getBudget() + 1000000);
+                if (goalsClub1 > goalsClub2) {
+                    // Club 1 wygrał
+                    club1.setMatchesWon(club1.getMatchesWon() + 1);
+                    club1.setPoints(club1.getPoints() + 3);
+                    club2.setMatchesLost(club2.getMatchesLost() + 1);
+                    club1.setBudget(club1.getBudget() + 1000000);
+                    club2.setBudget(club2.getBudget() + 250000);
+                } else if (goalsClub1 < goalsClub2) {
+                    // Club 2 wygrał
+                    club2.setMatchesWon(club2.getMatchesWon() + 1);
+                    club2.setPoints(club2.getPoints() + 3);
+                    club1.setMatchesLost(club1.getMatchesLost() + 1);
+                    club1.setBudget(club1.getBudget() + 250000);
+                    club2.setBudget(club2.getBudget() + 1000000);
+                } else {
+                    // Remis
+                    club1.setMatchesDraw(club1.getMatchesDraw() + 1);
+                    club2.setMatchesDraw(club2.getMatchesDraw() + 1);
+                    club1.setPoints(club1.getPoints() + 1);
+                    club2.setPoints(club2.getPoints() + 1);
+                    club1.setBudget(club1.getBudget() + 500000);
+                    club2.setBudget(club2.getBudget() + 500000);
+                }
+
+                clubRepository.save(club1);
+                clubRepository.save(club2);
+
+                return ResponseEntity.ok("Game has been simulated.");
             } else {
-                // Remis
-                club1.setMatchesDraw(club1.getMatchesDraw() + 1);
-                club2.setMatchesDraw(club2.getMatchesDraw() + 1);
-                club1.setPoints(club1.getPoints() + 1);
-                club2.setPoints(club2.getPoints() + 1);
-                club1.setBudget(club1.getBudget() + 500000);
-                club2.setBudget(club2.getBudget() + 500000);
+                return ResponseEntity.ok("Game has already been played.");
             }
-
-            clubRepository.save(club1);
-            clubRepository.save(club2);
-
-            return ResponseEntity.ok("Game has been simulated.");
         }
         return ResponseEntity.notFound().build();
     }
