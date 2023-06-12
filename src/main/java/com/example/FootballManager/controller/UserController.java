@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -89,5 +90,25 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/user/{id}/increaseDate")
+    public ResponseEntity<User> increaseUserDate(@PathVariable("id") Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        // Pobranie aktualnej daty użytkownika
+        LocalDate currentDate = user.getCurrDate();
+
+        // Zwiększenie daty o 3 dni
+        LocalDate updatedDate = currentDate.plusDays(3);
+
+        // Zaktualizowanie daty użytkownika
+        user.setCurrDate(updatedDate);
+
+        // Zapisanie zaktualizowanego użytkownika w bazie danych
+        User savedUser = userRepository.save(user);
+
+        return ResponseEntity.ok(savedUser);
     }
 }
