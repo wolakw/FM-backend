@@ -6,13 +6,16 @@ import com.example.FootballManager.model.Club;
 import com.example.FootballManager.model.User;
 import com.example.FootballManager.repository.ClubRepository;
 import com.example.FootballManager.repository.UserRepository;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
+@PermitAll
 public class ClubController {
     @Autowired
     private ClubRepository clubRepository;
@@ -26,6 +29,7 @@ public class ClubController {
         return clubRepository.findAll();
     }
 
+    @Transactional
     @GetMapping("/club/{id}")
     Club getClubById(@PathVariable Long id) {
         return clubRepository.findById(id)
