@@ -60,7 +60,6 @@ public class UserController {
 
         // Zaktualizuj dane użytkownika
         existingUser.setName(updatedUser.getName());
-        existingUser.setUsername(updatedUser.getUsername());
         existingUser.setEmail(updatedUser.getEmail());
 
         // Przypisz klub do użytkownika
