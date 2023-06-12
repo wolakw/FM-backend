@@ -34,12 +34,12 @@ public class User implements UserDetails {
     private Club club;
     private LocalDate currDate;
 
-    @JsonProperty("club") // Dopasuj nazwę pola do nazwy w JSON-ie
+    @JsonProperty("club")  //Dopasuj nazwę pola do nazwy w JSON-ie
     public Club getClub() {
         return club;
     }
 
-    @JsonProperty("club") // Dopasuj nazwę pola do nazwy w JSON-ie
+    @JsonProperty("club")  //Dopasuj nazwę pola do nazwy w JSON-ie
     public void setClub(Club club) {
         this.club = club;
     }

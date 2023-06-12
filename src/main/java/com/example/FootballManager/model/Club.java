@@ -3,12 +3,16 @@ package com.example.FootballManager.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Club {
 
     @Id
@@ -22,7 +26,7 @@ public class Club {
     private int points;
     @OneToOne(mappedBy = "club")
     private User user;
-    @OneToMany(mappedBy = "club")
+    @OneToMany(mappedBy = "club", fetch = FetchType.EAGER)
     @JsonManagedReference // dodana adnotacja
     private List<Player> players;
     private int grade;
@@ -30,10 +34,6 @@ public class Club {
 
     public Club(Long id) {
         this.id = id;
-    }
-
-    public Club() {
-
     }
 
     public Long getId() {

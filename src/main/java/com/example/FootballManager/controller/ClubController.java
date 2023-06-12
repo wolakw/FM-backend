@@ -1,12 +1,10 @@
 package com.example.FootballManager.controller;
 
 import com.example.FootballManager.exception.ClubNotFoundException;
-import com.example.FootballManager.exception.UserNotFoundException;
 import com.example.FootballManager.model.Club;
-import com.example.FootballManager.model.User;
 import com.example.FootballManager.repository.ClubRepository;
-import com.example.FootballManager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +24,7 @@ public class ClubController {
         return clubRepository.findAll();
     }
 
+    @Transactional
     @GetMapping("/club/{id}")
     Club getClubById(@PathVariable Long id) {
         return clubRepository.findById(id)
