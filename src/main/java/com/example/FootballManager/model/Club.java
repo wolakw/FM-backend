@@ -22,7 +22,7 @@ public class Club {
     private int points;
     @OneToOne(mappedBy = "club")
     private User user;
-    @OneToMany(mappedBy = "club")
+    @OneToMany(mappedBy = "club", fetch = FetchType.EAGER)
     @JsonManagedReference // dodana adnotacja
     private List<Player> players;
     private int grade;
