@@ -26,6 +26,8 @@ public class Game {
     private int passesClub1;
     private int passesClub2;
 
+    private boolean isPlayed;
+
     public Long getId() {
         return id;
     }
@@ -120,5 +122,13 @@ public class Game {
 
     public void setPassesClub2(int passesClub2) {
         this.passesClub2 = passesClub2;
+    }
+
+    public boolean isPlayed() {
+        return isPlayed;
+    }
+
+    public void setPlayed(boolean played) {
+        isPlayed = played;
     }
 }

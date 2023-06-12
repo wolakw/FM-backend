@@ -67,6 +67,7 @@ public class GameController {
             int passesClub2 = generatePasses(powerClub2); // Wywołanie metody generującej liczbę podań dla Club 2
 
             // Aktualizacja wyniku i statystyk meczu
+            game.setPlayed(true);
             game.setGoalsClub1(goalsClub1);
             game.setGoalsClub2(goalsClub2);
             game.setShotsClub1(shotsClub1);
@@ -254,7 +255,7 @@ public class GameController {
 
                 gameRepository.save(game);
 
-                startDate = addDays(startDate, 1); // Dodaj 7 dni do daty dla kolejnej kolejki
+                startDate = addDays(startDate, 3);
             }
         }
 
@@ -293,6 +294,7 @@ public class GameController {
         }
 
         for (Game game : games) {
+            game.setPlayed(false);
             game.setGoalsClub1(0);
             game.setGoalsClub2(0);
             game.setShotsClub1(0);
