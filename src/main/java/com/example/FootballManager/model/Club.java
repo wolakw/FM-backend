@@ -1,17 +1,19 @@
 package com.example.FootballManager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.List;
 
 
 @Entity
 public class Club {
 
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private int matchesPlayed;
@@ -19,7 +21,21 @@ public class Club {
     private int matchesDraw;
     private int matchesLost;
     private int points;
-    private int position;
+    @OneToOne(mappedBy = "club")
+    private User user;
+    @OneToMany(mappedBy = "club")
+    @JsonManagedReference // dodana adnotacja
+    private List<Player> players;
+    private int grade;
+    private int budget;
+
+    public Club(Long id) {
+        this.id = id;
+    }
+
+    public Club() {
+
+    }
 
     public Long getId() {
         return id;
@@ -77,11 +93,26 @@ public class Club {
         this.points = points;
     }
 
-    public int getPosition() {
-        return position;
+    public List<Player> getPlayers() {
+        return players;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
+
+    public int getBudget() {
+        return budget;
+    }
+    public void setBudget(int budget) {
+        this.budget = budget;
     }
 }
