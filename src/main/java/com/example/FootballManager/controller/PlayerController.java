@@ -38,20 +38,20 @@ public class PlayerController {
                 .orElseThrow(()->new PlayerNotFoundException(id));
     }
 
-    @PutMapping("/players/{id}/buy")
-    public ResponseEntity<String> buyPlayer(@PathVariable Long id) {
-        Optional<Player> optionalPlayer = playerRepository.findById(id);
+    @PutMapping("/players/{Ids}/buy")
+    public ResponseEntity<String> buyPlayer(@PathVariable Long[] Ids) {
+        Optional<Player> optionalPlayer = playerRepository.findById(Ids[0]);
         if (optionalPlayer.isPresent()) {
             Player player = optionalPlayer.get();
             if (!player.isTaken()) {
-                User user = userRepository.findById(1L).orElse(null); // Pobierz użytkownika o ID 1 (założenie)
+                User user = userRepository.findById(Ids[1]).orElse(null);
                 if (user != null) {
                     Club club = user.getClub();
                     if (player.getPrice() <= club.getBudget()) {
                         player.setTaken(true);
                         club.setBudget(club.getBudget() - player.getPrice());
                         club.getPlayers().add(player);
-                        player.setClub(club); // Przypisanie klubu do zawodnika
+                        player.setClub(club);
                         playerRepository.save(player);
                         userRepository.save(user);
                         return ResponseEntity.ok("Player has been bought.");
