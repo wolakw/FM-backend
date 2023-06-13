@@ -31,10 +31,10 @@ public class PlayerController {
     @PostMapping("/add-player")
     Player addPlayer(@RequestBody Player newPlayer) {
         Random rand = new Random();
-        newPlayer.setPassing(rand.nextInt(25)+5);
-        newPlayer.setShooting(rand.nextInt(25)+5);
-        newPlayer.setDefending(rand.nextInt(25)+5);
-        newPlayer.setSpeed(rand.nextInt(25)+5);
+        newPlayer.setPassing(rand.nextInt(89)+10);
+        newPlayer.setShooting(rand.nextInt(89)+10);
+        newPlayer.setDefending(rand.nextInt(89)+10);
+        newPlayer.setSpeed(rand.nextInt(89)+10);
         newPlayer.setPrice(rand.nextInt(250)+50);
         newPlayer.setClub(null);
         newPlayer.setTaken(false);
