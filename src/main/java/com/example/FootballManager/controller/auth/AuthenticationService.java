@@ -13,6 +13,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Random;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -23,11 +26,12 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-
+    public Random rand = new Random();
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
+                .currDate(LocalDate.now())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
@@ -35,6 +39,8 @@ public class AuthenticationService {
         var club = Club.builder()
                 .name(request.getClubName())
                 .user(user)
+                .budget(rand.nextInt(89)+10)
+                .grade(rand.nextInt(89)+10)
                 .build();
 
         clubRepository.save(club);
