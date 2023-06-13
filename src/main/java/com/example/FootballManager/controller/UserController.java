@@ -3,8 +3,10 @@ package com.example.FootballManager.controller;
 import com.example.FootballManager.exception.ClubNotFoundException;
 import com.example.FootballManager.exception.UserNotFoundException;
 import com.example.FootballManager.model.Club;
+import com.example.FootballManager.model.Game;
 import com.example.FootballManager.model.User;
 import com.example.FootballManager.repository.ClubRepository;
+import com.example.FootballManager.repository.GameRepository;
 import com.example.FootballManager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private ClubRepository clubRepository;
+
+    @Autowired
+    private GameRepository gameRepository;
 
     @PostMapping("/user")
     User newUser(@RequestBody User newUser){
@@ -91,23 +96,39 @@ public class UserController {
         }
     }
 
-    @PutMapping("/user/{id}/increaseDate")
-    public ResponseEntity<User> increaseUserDate(@PathVariable("id") Long id) {
+    @PutMapping("/user/{id}/setdate")
+    public ResponseEntity<User> setUserDate(@PathVariable("id") Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
 
-        // Pobranie aktualnej daty użytkownika
-        LocalDate currentDate = user.getCurrDate();
+        Club club = user.getClub();
+        LocalDate gameDate = null;
 
-        // Zwiększenie daty o 3 dni
-        LocalDate updatedDate = currentDate.plusDays(3);
+        List<Game> games = gameRepository.findAll();
 
-        // Zaktualizowanie daty użytkownika
-        user.setCurrDate(updatedDate);
+        for (Game game : games) {
+            if (!game.isPlayed() && (game.getClub1() == club || game.getClub2() == club)) {
+                gameDate = game.getGameDate();
+                break;
+            }
+        }
+
+        user.setCurrDate(gameDate);
 
         // Zapisanie zaktualizowanego użytkownika w bazie danych
         User savedUser = userRepository.save(user);
 
         return ResponseEntity.ok(savedUser);
+    }
+
+    @PutMapping("/user/setdates")
+    public ResponseEntity<String> setAllDates() {
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+            setUserDate(user.getId());
+        }
+
+        return ResponseEntity.ok("All users have assigned dates.");
     }
 }

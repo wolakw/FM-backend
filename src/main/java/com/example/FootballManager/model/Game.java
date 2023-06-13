@@ -2,6 +2,7 @@ package com.example.FootballManager.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -10,7 +11,7 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date gameDate;
+    private LocalDate gameDate;
     @ManyToOne
     @JoinColumn(name = "club_1_id")
     private Club club1;
@@ -36,11 +37,11 @@ public class Game {
         this.id = id;
     }
 
-    public Date getGameDate() {
+    public LocalDate getGameDate() {
         return gameDate;
     }
 
-    public void setGameDate(Date matchDate) {
+    public void setGameDate(LocalDate matchDate) {
         this.gameDate = matchDate;
     }
 

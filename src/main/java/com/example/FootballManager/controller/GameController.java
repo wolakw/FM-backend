@@ -150,101 +150,101 @@ public class GameController {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
-    @GetMapping("/generate-matches")
-    public ResponseEntity<String> generateMatches() {
-        List<Club> clubs = clubRepository.findAll();
+//    @GetMapping("/generate-matches")
+//    public ResponseEntity<String> generateMatches() {
+//        List<Club> clubs = clubRepository.findAll();
+//
+//        if (clubs.size() < 2) {
+//            return ResponseEntity.badRequest().body("Potrzeba co najmniej dwóch klubów do utworzenia meczów.");
+//        }
+//
+//        int totalClubs = clubs.size();
+//        int matchesPerTeam = totalClubs - 1;  // Liczba meczów na jedną drużynę
+//
+//        LocalDate currentDate = LocalDate.now();
+//        LocalDate nextMatchDate = currentDate.plusWeeks(matchesPerTeam);
+//
+//        for (int i = 0; i < totalClubs; i++) {
+//            Club club1 = clubs.get(i);
+//
+//            for (int j = i + 1; j < totalClubs; j++) {
+//                Club club2 = clubs.get(j);
+//
+//                // Tworzenie dwóch meczów pomiędzy dwiema drużynami
+//                createMatch(club1, club2, currentDate);
+//
+//                // Przesuń datę następnego meczu o kolejny tydzień
+//                currentDate = currentDate.plusDays(7);
+//            }
+//        }
+//
+//        for (int i = 0; i < totalClubs; i++) {
+//            Club club1 = clubs.get(i);
+//
+//            for (int j = i + 1; j < totalClubs; j++) {
+//                Club club2 = clubs.get(j);
+//
+//                // Tworzenie dwóch meczów pomiędzy dwiema drużynami
+//                createMatch(club2, club1, nextMatchDate);
+//
+//                // Przesuń datę następnego meczu o kolejny tydzień
+//                nextMatchDate = nextMatchDate.plusDays(7);
+//            }
+//        }
+//
+//        return ResponseEntity.ok("Mecze zostały wygenerowane.");
+//    }
 
-        if (clubs.size() < 2) {
-            return ResponseEntity.badRequest().body("Potrzeba co najmniej dwóch klubów do utworzenia meczów.");
-        }
+//    private void createMatch(Club club1, Club club2, LocalDate matchDate) {
+//        Game game = new Game();
+//        game.setGameDate(Date.from(matchDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+//        game.setClub1(club1);
+//        game.setClub2(club2);
+//        // Ustaw pozostałe parametry meczu
+//
+//        gameRepository.save(game);
+//    }
 
-        int totalClubs = clubs.size();
-        int matchesPerTeam = totalClubs - 1;  // Liczba meczów na jedną drużynę
-
-        LocalDate currentDate = LocalDate.now();
-        LocalDate nextMatchDate = currentDate.plusWeeks(matchesPerTeam);
-
-        for (int i = 0; i < totalClubs; i++) {
-            Club club1 = clubs.get(i);
-
-            for (int j = i + 1; j < totalClubs; j++) {
-                Club club2 = clubs.get(j);
-
-                // Tworzenie dwóch meczów pomiędzy dwiema drużynami
-                createMatch(club1, club2, currentDate);
-
-                // Przesuń datę następnego meczu o kolejny tydzień
-                currentDate = currentDate.plusDays(7);
-            }
-        }
-
-        for (int i = 0; i < totalClubs; i++) {
-            Club club1 = clubs.get(i);
-
-            for (int j = i + 1; j < totalClubs; j++) {
-                Club club2 = clubs.get(j);
-
-                // Tworzenie dwóch meczów pomiędzy dwiema drużynami
-                createMatch(club2, club1, nextMatchDate);
-
-                // Przesuń datę następnego meczu o kolejny tydzień
-                nextMatchDate = nextMatchDate.plusDays(7);
-            }
-        }
-
-        return ResponseEntity.ok("Mecze zostały wygenerowane.");
-    }
-
-    private void createMatch(Club club1, Club club2, LocalDate matchDate) {
-        Game game = new Game();
-        game.setGameDate(Date.from(matchDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        game.setClub1(club1);
-        game.setClub2(club2);
-        // Ustaw pozostałe parametry meczu
-
-        gameRepository.save(game);
-    }
-
-    @GetMapping("/generate-games")
-    public ResponseEntity<String> generateGames() {
-        List<Club> clubs = clubRepository.findAll();
-        int totalClubs = clubs.size();
-        int rounds = totalClubs - 1; // Ilość rund
-
-        // Pętla generująca gry dla każdej rundy
-        for (int round = 0; round < rounds; round++) {
-            for (int i = 0; i < totalClubs; i++) {
-                int homeClubIndex = (round + i) % (totalClubs - 1);
-                int awayClubIndex = (totalClubs - 1 - i + round) % (totalClubs - 1);
-
-                // Pominięcie gry z samym sobą
-                if (awayClubIndex == homeClubIndex) {
-                    awayClubIndex = totalClubs - 1;
-                }
-
-                Club homeClub = clubs.get(homeClubIndex);
-                Club awayClub = clubs.get(awayClubIndex);
-
-                Game game = new Game();
-                game.setClub1(homeClub);
-                game.setClub2(awayClub);
-                // Ustawienie daty gry co tydzień
-                Date gameDate = Date.from(LocalDate.now().plusDays((round * totalClubs) + i).atStartOfDay(ZoneId.systemDefault()).toInstant());
-                game.setGameDate(gameDate);
-
-                gameRepository.save(game);
-            }
-        }
-
-        return ResponseEntity.ok("Gry zostały wygenerowane.");
-    }
+//    @GetMapping("/generate-games")
+//    public ResponseEntity<String> generateGames() {
+//        List<Club> clubs = clubRepository.findAll();
+//        int totalClubs = clubs.size();
+//        int rounds = totalClubs - 1; // Ilość rund
+//
+//        // Pętla generująca gry dla każdej rundy
+//        for (int round = 0; round < rounds; round++) {
+//            for (int i = 0; i < totalClubs; i++) {
+//                int homeClubIndex = (round + i) % (totalClubs - 1);
+//                int awayClubIndex = (totalClubs - 1 - i + round) % (totalClubs - 1);
+//
+//                // Pominięcie gry z samym sobą
+//                if (awayClubIndex == homeClubIndex) {
+//                    awayClubIndex = totalClubs - 1;
+//                }
+//
+//                Club homeClub = clubs.get(homeClubIndex);
+//                Club awayClub = clubs.get(awayClubIndex);
+//
+//                Game game = new Game();
+//                game.setClub1(homeClub);
+//                game.setClub2(awayClub);
+//                // Ustawienie daty gry co tydzień
+//                Date gameDate = Date.from(LocalDate.now().plusDays((round * totalClubs) + i).atStartOfDay(ZoneId.systemDefault()).toInstant());
+//                game.setGameDate(gameDate);
+//
+//                gameRepository.save(game);
+//            }
+//        }
+//
+//        return ResponseEntity.ok("Gry zostały wygenerowane.");
+//    }
 
     @GetMapping("/generate")
     public ResponseEntity<String> generate() {
         List<Club> clubs = clubRepository.findAll(); // Pobierz wszystkie drużyny z repozytorium
 
         int totalClubs = clubs.size();
-        Date startDate = new Date(); // Ustaw startową datę jako bieżącą datę
+        LocalDate startDate = LocalDate.now(); // Ustaw startową datę jako bieżącą datę
 
         for (int i = 0; i < totalClubs - 1; i++) {
             Club homeClub = clubs.get(i);
@@ -259,7 +259,7 @@ public class GameController {
 
                 gameRepository.save(game);
 
-                startDate = addDays(startDate, 3);
+                startDate = startDate.plusDays(3);
             }
         }
 
