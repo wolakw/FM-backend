@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
-@PermitAll
 public class ClubController {
     @Autowired
     private ClubRepository clubRepository;
