@@ -1,8 +1,10 @@
 package com.example.FootballManager.controller.auth;
 
 import com.example.FootballManager.config.JwtService;
+import com.example.FootballManager.model.Club;
 import com.example.FootballManager.model.Role;
 import com.example.FootballManager.model.User;
+import com.example.FootballManager.repository.ClubRepository;
 import com.example.FootballManager.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private final UserRepository repository;
+
+    private final ClubRepository clubRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -28,6 +32,16 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         repository.save(user);
+        var club = Club.builder()
+                .name(request.getClubName())
+                .user(user)
+                .build();
+
+        clubRepository.save(club);
+
+        user.setClub(club);
+        repository.save(user);
+
         var jwtToken = jwtService.generateToken(user);
         return  AuthenticationResponse.builder()
                 .token(jwtToken)
