@@ -65,13 +65,13 @@ public class PlayerController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/players/{id}/sell")
-    public ResponseEntity<String> sellPlayer(@PathVariable Long id) {
-        Optional<Player> optionalPlayer = playerRepository.findById(id);
+    @PutMapping("/players/{Ids}/sell")
+    public ResponseEntity<String> sellPlayer(@PathVariable Long[] Ids) {
+        Optional<Player> optionalPlayer = playerRepository.findById(Ids[0]);
         if (optionalPlayer.isPresent()) {
             Player player = optionalPlayer.get();
             if (player.isTaken()) {
-                User user = userRepository.findById(1L).orElse(null); // Pobierz użytkownika o ID 1 (założenie)
+                User user = userRepository.findById(Ids[1]).orElse(null); // Pobierz użytkownika o ID 1 (założenie)
                 if (user != null) {
                     Club club = user.getClub();
                     player.setTaken(false);
