@@ -50,6 +50,17 @@ public class ClubController {
                 }).orElseThrow(() -> new ClubNotFoundException(id));
     }
 
+    @PutMapping("/clubedit/{id}")
+    Club editClub(@RequestBody Club newClub, @PathVariable Long id) {
+        return clubRepository.findById(id)
+                .map(club -> {
+                    club.setName(newClub.getName());
+                    club.setGrade(newClub.getGrade());
+                    club.setBudget(newClub.getBudget());
+                    return clubRepository.save(club);
+                }).orElseThrow(() -> new ClubNotFoundException(id));
+    }
+
     @PutMapping("/clubup/{id}")
     Club upgradeClub(@PathVariable Long id) {
         return clubRepository.findById(id)
