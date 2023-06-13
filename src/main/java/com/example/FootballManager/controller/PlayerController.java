@@ -35,7 +35,7 @@ public class PlayerController {
         newPlayer.setShooting(rand.nextInt(89)+10);
         newPlayer.setDefending(rand.nextInt(89)+10);
         newPlayer.setSpeed(rand.nextInt(89)+10);
-        newPlayer.setPrice(rand.nextInt(250)+50);
+        newPlayer.setPrice(rand.nextInt(9000000)+1000000);
         newPlayer.setClub(null);
         newPlayer.setTaken(false);
         newPlayer.setFirstXI(false);

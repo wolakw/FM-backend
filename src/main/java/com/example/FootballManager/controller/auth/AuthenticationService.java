@@ -39,7 +39,7 @@ public class AuthenticationService {
         var club = Club.builder()
                 .name(request.getClubName())
                 .user(user)
-                .budget(rand.nextInt(89)+10)
+                .budget(rand.nextInt(90000000)+10000000)
                 .grade(rand.nextInt(89)+10)
                 .build();
 
