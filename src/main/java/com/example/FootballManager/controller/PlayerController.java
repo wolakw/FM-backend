@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -27,6 +28,19 @@ public class PlayerController {
         return playerRepository.save(newPlayer);
     }
 
+    @PostMapping("/add-player")
+    Player addPlayer(@RequestBody Player newPlayer) {
+        Random rand = new Random();
+        newPlayer.setPassing(rand.nextInt(25)+5);
+        newPlayer.setShooting(rand.nextInt(25)+5);
+        newPlayer.setDefending(rand.nextInt(25)+5);
+        newPlayer.setSpeed(rand.nextInt(25)+5);
+        newPlayer.setPrice(rand.nextInt(250)+50);
+        newPlayer.setClub(null);
+        newPlayer.setTaken(false);
+        newPlayer.setFirstXI(false);
+        return playerRepository.save(newPlayer);
+    }
     @GetMapping("/players")
     List<Player> getAllPlayers(){
         return playerRepository.findAll();
