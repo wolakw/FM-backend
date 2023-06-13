@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -27,6 +28,19 @@ public class PlayerController {
         return playerRepository.save(newPlayer);
     }
 
+    @PostMapping("/add-player")
+    Player addPlayer(@RequestBody Player newPlayer) {
+        Random rand = new Random();
+        newPlayer.setPassing(rand.nextInt(25)+5);
+        newPlayer.setShooting(rand.nextInt(25)+5);
+        newPlayer.setDefending(rand.nextInt(25)+5);
+        newPlayer.setSpeed(rand.nextInt(25)+5);
+        newPlayer.setPrice(rand.nextInt(250)+50);
+        newPlayer.setClub(null);
+        newPlayer.setTaken(false);
+        newPlayer.setFirstXI(false);
+        return playerRepository.save(newPlayer);
+    }
     @GetMapping("/players")
     List<Player> getAllPlayers(){
         return playerRepository.findAll();
@@ -114,6 +128,40 @@ public class PlayerController {
             return ResponseEntity.ok("Player moved to XI successfully.");
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/playerstat/{id}/{type}")
+    Player TrainPlayer(@PathVariable Long id,@PathVariable String type) throws Exception {
+
+        if(type.equals("shooting")){
+            return playerRepository.findById(id).map(player -> {
+                int temp = (player.getShooting() < 99) ? player.getShooting() + 1 : 99;
+                player.setShooting(temp);
+                return playerRepository.save(player);
+            }).orElseThrow(() -> new Exception(id + ""));
+        }
+        else if(type.equals("passing")){
+            return playerRepository.findById(id).map(player -> {
+                int temp = (player.getPassing() < 99) ? player.getPassing() + 1 : 99;
+                player.setPassing(temp);
+                return playerRepository.save(player);
+            }).orElseThrow(() -> new Exception(id + ""));
+        }
+        else if(type.equals("defending")){
+            return playerRepository.findById(id).map(player -> {
+                int temp = (player.getDefending() < 99) ? player.getDefending() + 1 : 99;
+                player.setDefending(temp);
+                return playerRepository.save(player);
+            }).orElseThrow(() -> new Exception(id + ""));
+        }
+        else if(type.equals("speed")){
+            return playerRepository.findById(id).map(player -> {
+                int temp = (player.getSpeed() < 99) ? player.getSpeed() + 1 : 99;
+                player.setSpeed(temp);
+                return playerRepository.save(player);
+            }).orElseThrow(() -> new Exception(id + ""));
+        }
+        return null;
     }
 
 }
