@@ -112,6 +112,9 @@ public class UserController {
                 break;
             }
         }
+        if (gameDate == null) {
+            gameDate = LocalDate.now();
+        }
 
         user.setCurrDate(gameDate);
 
