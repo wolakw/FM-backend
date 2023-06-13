@@ -29,8 +29,10 @@ public class GameController {
     Game newMatch(@RequestBody Game newGame){
         return gameRepository.save(newGame);
     }
+
+
     @GetMapping("/games")
-    List<Game> getAllMatches(){
+    public List<Game> getAllMatches(){
         return gameRepository.findAll();
     }
 
